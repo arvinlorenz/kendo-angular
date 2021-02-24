@@ -140,7 +140,7 @@ export class EditService extends BehaviorSubject<any[]> {
     private fetch(action: string = '', data?: any): Observable<any[]> {
         console.log('d', this.serializeModels(data))
         return this.http
-            .jsonp(`https://demos.telerik.com/kendo-ui/service/Products/${action}?${this.serializeModels(data)}`,  'callback')
+            .get(`./assets/products.json`)
             .pipe(map(res => <any[]>res));
     }
 
