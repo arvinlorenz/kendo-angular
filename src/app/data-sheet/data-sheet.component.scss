@@ -1,0 +1,25 @@
+.editor-page {
+  display: flex;
+  justify-content: space-around;
+}
+
+.editor {
+  width: 65%;
+}
+
+.action-buttons {
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+
+kendo-pdf-document .k-toolbar {
+  display: none;
+}
+
+kendo-pdf-document .k-editor {
+  height: 100% !important;
+  border: none;
+}

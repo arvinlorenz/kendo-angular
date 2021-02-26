@@ -37,7 +37,8 @@ import { ButtonsModule } from '@progress/kendo-angular-buttons';
     BrowserAnimationsModule,
     ProgressBarModule,
     MenuModule,
-    ButtonsModule
+    ButtonsModule,
+
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,43 @@
+
+<div class="editor-page">
+
+  <div class="version-list">
+    <kendo-treeview
+        [nodes]="versions"
+        textField="text"
+        kendoTreeViewExpandable
+        [hasChildren]="hasChildren"
+        [children]="fetchChildren"
+
+        [expandedKeys]="expandedKeys"
+        [isSelected]="isItemSelected"
+        (selectionChange)="handleSelection($event)"
+    >
+    </kendo-treeview>
+  </div>
+  <kendo-pdf-export class="editor" #pdf paperSize="A4" margin="1cm">
+    <kendo-editor
+    [iframe]="false"
+
+    [value]="value"
+    (valueChange)="valueChange($event)"
+    style="height: 50vh;">
+
+    </kendo-editor>
+  </kendo-pdf-export>
+
+  <div class="action-buttons">
+    <button
+    kendoButton
+    look="outline"
+    [primary]="true"
+    [disabled]="createVersionButtonDisable"
+    (click)="createVersion()">Create new version</button>
+
+    <button
+    kendoButton
+    look="outline"
+    [primary]="true"
+    (click)="pdf.saveAs('editor-content.pdf')">Export to PDF</button>
+  </div>
+</div>
