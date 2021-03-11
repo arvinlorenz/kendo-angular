@@ -1,0 +1,12 @@
+/* You can add global styles to this file, and also import other style files */
+// styles.scss
+@import "~@progress/kendo-theme-material/dist/all.scss";
+
+body {
+  background: rgb(251,251,251);
+background: radial-gradient(circle, rgba(251,251,251,1) 0%, rgba(251,214,188,1) 800%);
+}
+html, body, div, h1 {
+  padding: 0;
+  margin: 0;
+}

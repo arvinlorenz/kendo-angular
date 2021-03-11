@@ -1,19 +1,19 @@
 <kendo-appbar [position]="'top'">
-
-
-  <kendo-appbar-section style="display: inline;">
-    <!-- <button
+  <kendo-appbar-section>
+    <button
+    class="menu__btn"
     kendoButton
     icon="menu"
     look="flat"
     (click)="drawer.toggle()"
-    ></button> -->
+    ></button>
+  </kendo-appbar-section>
+
+  <kendo-appbar-section style="display: inline;">
 
 
       <h1 class="title">Product Manager</h1>
-      <h3 class="product">
-        Product Name: {{ productName }} | ID: {{ productID }}
-      </h3>
+
   </kendo-appbar-section>
 
   <kendo-appbar-spacer [width]="'32px'"></kendo-appbar-spacer>
@@ -22,36 +22,36 @@
   <kendo-appbar-section>
 
     <kendo-menu (select)="onSelectMenu($event)">
-      <kendo-menu-item data="social-media" text="Social Media" [cssStyle]="{ color: 'black' }">
-        <kendo-menu-item text="Facebook" [cssStyle]="{ color: 'black' }">
+      <kendo-menu-item data="social-media" text="Social Media" [cssStyle]="{ color: 'white' }">
+        <kendo-menu-item text="Facebook" [cssStyle]="{ color: '#593D28' }">
         </kendo-menu-item>
         <kendo-menu-item [separator]="true"> </kendo-menu-item>
 
-        <kendo-menu-item text="Twitter" [cssStyle]="{ color: 'black' }">
+        <kendo-menu-item text="Twitter" [cssStyle]="{ color: '#593D28' }">
         </kendo-menu-item>
         <kendo-menu-item [separator]="true"> </kendo-menu-item>
 
-        <kendo-menu-item text="LinkedIn" [cssStyle]="{ color: 'black' }">
+        <kendo-menu-item text="LinkedIn" [cssStyle]="{ color: '#593D28' }">
         </kendo-menu-item>
       </kendo-menu-item>
 
       <kendo-menu-item [separator]="true"> </kendo-menu-item>
-      <kendo-menu-item data="data-sheet" text="Data Sheet" [cssStyle]="{ color: 'black' }"></kendo-menu-item>
+      <kendo-menu-item data="data-sheet" text="Data Sheet" [cssStyle]="{ color: 'white' }"></kendo-menu-item>
       <kendo-menu-item [separator]="true"> </kendo-menu-item>
 
-      <kendo-menu-item data="brochure" text="Brochure" [cssStyle]="{ color: 'black' }"></kendo-menu-item>
+      <kendo-menu-item data="brochure" [cssClass]="'active'" text="Brochure" [cssStyle]="{ color: 'white' }"></kendo-menu-item>
       <kendo-menu-item [separator]="true"> </kendo-menu-item>
 
-      <kendo-menu-item data="installer-manual" text="Installer Manual" [cssStyle]="{ color: 'black' }"></kendo-menu-item>
+      <kendo-menu-item data="installer-manual" text="Installer Manual" [cssStyle]="{ color: 'white' }"></kendo-menu-item>
       <kendo-menu-item [separator]="true"> </kendo-menu-item>
 
-      <kendo-menu-item data="website-info" text="Website Info" [cssStyle]="{ color: 'black' }"></kendo-menu-item>
+      <kendo-menu-item data="website-info" text="Website Info" [cssStyle]="{ color: 'white' }"></kendo-menu-item>
       <kendo-menu-item [separator]="true"> </kendo-menu-item>
 
-      <kendo-menu-item data="specifics"  text="Specifics" [cssStyle]="{ color: 'black' }"></kendo-menu-item>
+      <kendo-menu-item data="specifics"  text="Specifics" [cssStyle]="{ color: 'white' }"></kendo-menu-item>
       <kendo-menu-item [separator]="true"> </kendo-menu-item>
 
-      <kendo-menu-item data="pictures" text="Pictures" [cssStyle]="{ color: 'black' }"></kendo-menu-item>
+      <kendo-menu-item data="pictures" text="Pictures" [cssStyle]="{ color: 'white' }"></kendo-menu-item>
     </kendo-menu>
   </kendo-appbar-section>
   <kendo-appbar-spacer width="32px"></kendo-appbar-spacer>
@@ -64,14 +64,7 @@
 
 </kendo-appbar>
 
-<div>
-  <button
-    kendoButton
-    icon="menu"
-    look="flat"
-    (click)="drawer.toggle()"
-  ></button>
-</div>
+
 <kendo-drawer-container>
 
 
@@ -100,7 +93,14 @@
     </ng-template>
   </kendo-drawer>
 
+
   <kendo-drawer-content>
+    <br>
+    <h3 class="product">
+      Product Name: {{ productName }} | ID: {{ productID }}
+    </h3>
+    <br>
+    <br>
     <router-outlet></router-outlet>
   </kendo-drawer-content>
 

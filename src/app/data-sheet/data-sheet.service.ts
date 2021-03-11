@@ -1,39 +1,79 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import gql from 'graphql-tag';
+import { Apollo } from 'apollo-angular';
+import { tap, map, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataSheetService {
   $versions = new BehaviorSubject<any[]>([]);
-  constructor() {
-    this.$versions?.next(this.versions);
+  constructor(private apollo: Apollo) {
   }
-  versions = [
-    {
-      text: 'Fri Feb 25 2021', items: [
-          { text: '8:50:17 PM', value: '<h1>THIS IS A TEST 1</h1>' },
-          { text: '7:50:17 PM', value: '<h1>THIS IS A TEST 2</h1>' },
-          { text: '7:50:17 AM', value: '<h1>THIS IS A TEST 3</h1>' }
-      ]
-    },
-    {
-        text: 'Fri Feb 4 2021', items: [
-          { text: '8:51:17 PM', value: '<h1>THIS IS A TEST FOr 1</h1>' },
-          { text: '7:53:17 PM', value: '<h1>THIS IS A TEST FOr2</h1>' },
-          { text: '7:43:17 AM', value: '<h1>THIS IS A TEST 3FOr</h1>' }
-        ]
-    },
-    {
-      text: 'Fri Feb 3 2021',
-      items: [
-        { text: '7:43:17 AM', value: '<h1>COVI</h1>' }
-      ]
-    }
-  ]
 
 
-  getVersions() {
+  getVersions(): any {
     return this.$versions?.asObservable();
+  }
+  getVersionsG(): any {
+    // return this.$versions?.asObservable();
+    return this.apollo.watchQuery({
+      query: gql`{
+        getVersions {
+          _id
+          text
+          data
+          items {
+            text
+            data
+          }
+        }
+      }`
+    })
+    .valueChanges
+    .pipe(
+      map((res: any) => {
+        return res.data.getVersions;
+      }),
+      tap((a: any) => {
+        this.$versions.next(a);
+      })
+    );
+    // tslint:disable-next-line: deprecation
+
+  }
+
+  addVersion(date: string, time: string, data: string): any {
+    let addedVersion: any;
+    return this.apollo.mutate({
+      mutation: gql`
+      mutation AddVersion($date: String!, $time: String!, $data: String!) {
+          addVersion(versionInput: { date: $date, time: $time, data: $data }) {
+            _id
+            text
+            data
+            items {
+              text
+              data
+            }
+          }
+        }`,
+      variables: {
+        date, time, data
+      }
+    }).pipe(
+      map((res: any) => {
+        return res.data.addVersion;
+      }),
+      switchMap((a: any) => {
+        addedVersion = a;
+        return this.getVersionsG();
+      }),
+      tap((versions: any) => {
+        const v = versions.filter((ver: any) => ver.text !== date);
+        this.$versions.next([addedVersion, ...v]);
+      })
+    );
   }
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { version } from 'graphql';
 import { of } from 'rxjs';
 import { DataSheetService } from './data-sheet.service';
 
@@ -15,7 +16,7 @@ export class DataSheetComponent implements OnInit {
   currentValue : any  = undefined;;
   initialValue: any  = undefined;
   value = '';
-  versions: any[] = [];
+  versions: any[] = [{text: '', data: '', items: []}];
   constructor(private dataSheetService: DataSheetService) { }
 
   hasChildren = (item: any) => item.items && item.items.length > 0;
@@ -23,7 +24,7 @@ export class DataSheetComponent implements OnInit {
 
   valueChange(value: any): void {
 
-   this.currentValue = value
+   this.currentValue = value;
    this.createVersionButtonDisable = this.currentValue === this.initialValue ? true : false;
   }
 
@@ -35,42 +36,55 @@ export class DataSheetComponent implements OnInit {
 
     const thisDate = this.versions.find(v => v.text === date);
 
-    this.value = thisDate.items.find((item: any) => item.text === time).value;
+    this.value = thisDate.items.find((item: any) => item.text === time).data;
     this.initialValue = this.value;
 
   }
   isItemSelected = (_: any, index: string) => this.selectedKeys.indexOf(index) > -1;
 
-  createVersion() {
+  createVersion(): void {
+
 
     this.initialValue = this.currentValue;
     this.createVersionButtonDisable = this.currentValue === this.initialValue ? true : false;
     const nowDate = new Date().toDateString();
     const nowTime = new Date().toLocaleTimeString();
-
-    const existingInDate = this.versions.find(v => v.text === nowDate);
-    if(existingInDate) {
-      const index = this.versions.findIndex(v => v.text === nowDate);
-      let updatedInDate = {...existingInDate};
-      updatedInDate.items.unshift({text:nowTime, value: this.currentValue});
-      this.versions[index] = updatedInDate;
-
-    } else {
-      this.versions.unshift({text:nowDate, items: [{ text: nowTime, value: this.currentValue }]});
-    }
     this.selectedKeys = ['0_0'];
     this.value = this.currentValue;
+    this.dataSheetService.addVersion(nowDate, nowTime, this.currentValue).subscribe();
+
+
+    // const existingInDate = this.versions.find(v => v.text === nowDate);
+    // if (existingInDate) {
+    //   const index = this.versions.findIndex(v => v.text === nowDate);
+    //   const updatedInDate = {...existingInDate};
+    //   updatedInDate.items.unshift({text:nowTime, data: this.currentValue});
+    //   this.versions[index] = updatedInDate;
+
+    // } else {
+    //   this.versions.unshift({text: nowDate, items: [{ text: nowTime, data: this.currentValue }]});
+    // }
+
 
   }
-  ngOnInit(): void {
-    this.dataSheetService.getVersions().subscribe(versions => {
-     this.versions = versions;
-     this.initialValue = this.versions[0].items[0].value;
-      this.value = this.initialValue;
-      this.currentValue = this.value;
+  // tslint:disable-next-line: typedef
+  ngOnInit() {
+    this.dataSheetService.getVersionsG().subscribe(() => {
+      this.dataSheetService.getVersions().subscribe((versions: any) => {
 
-      this.createVersionButtonDisable = this.currentValue === this.initialValue ? true : false;
-    })
+        if (versions.length >= 1) {
+          this.versions = versions;
+          console.log(this.versions);
+
+          this.initialValue = this.versions[0].items[0].data;
+          this.value = this.initialValue;
+          this.currentValue = this.value;
+        }
+
+        this.createVersionButtonDisable = this.currentValue === this.initialValue ? true : false;
+       });
+
+    });
 
 
   }

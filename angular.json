@@ -35,10 +35,13 @@
             ],
             "styles": [
               {
-                "input": "node_modules/@progress/kendo-theme-default/dist/all.css"
+                "input": "node_modules/@progress/kendo-theme-material/dist/all.css"
               },
-              "src/styles.scss"
+              "src/styles/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": ["src"]
+            },
             "scripts": []
           },
           "configurations": {
@@ -101,9 +104,9 @@
             ],
             "styles": [
               {
-                "input": "node_modules/@progress/kendo-theme-default/dist/all.css"
+                "input": "node_modules/@progress/kendo-theme-material/dist/all.css"
               },
-              "src/styles.scss"
+              "src/styles/styles.scss"
             ],
             "scripts": []
           }
